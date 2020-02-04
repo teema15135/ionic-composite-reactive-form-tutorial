@@ -1,14 +1,63 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      My Simple Form
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-text-center ion-align-items-center">
+      <ion-col class="ion-align-items-center" size="12">
+        <form [formGroup]="myFG">
+          <ion-item>
+            <ion-label color="primary" position="stacked">ชื่ออาหาร</ion-label>
+            <ion-input formControlName="foodName" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" position="stacked">ราคา</ion-label>
+            <ion-input formControlName="foodPrice" type="number"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" position="stacked">คำอธิบาย</ion-label>
+            <ion-input formControlName="description" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" position="stacked">ตัวเลือก</ion-label>
+
+            <!-- Iterate options -->
+            <div
+              *ngFor="let option of getOptions().controls; let optionIndex=index;"
+              [formGroup]="option"
+              style="width: 100%;"
+              >
+              <ion-toolbar>
+                <ion-input fromControlName="optionTitle" type="text" placeholder="หัวข้อตัวเลือก"></ion-input>
+              </ion-toolbar>
+
+              <!-- Iterate choices -->
+              <div
+                *ngFor="let choice of getChoices(optionIndex).controls"
+                [formGroup]="choice"
+                style="width: 100%;"
+                >
+                <ion-toolbar>
+                  <ion-input formControlName="choiceTitle" style="flex: 4 !important;" slot="start" type="text" placeholder="หัวข้อ choice"></ion-input>
+                  <ion-input formControlName="choicePrice" slot="end" type="text">+</ion-input>
+                  <ion-text slot="end">฿</ion-text>
+                </ion-toolbar>
+              </div>
+
+              <ion-button (click)="addChoice(optionIndex)">เพิ่มหัวข้อ choice</ion-button>
+
+            </div>
+          </ion-item>
+          <ion-button (click)="addOption()">เพิ่มตัวเลือก</ion-button>
+
+          <ion-button (click)="logNgoNgo()" size="expand">log ออกมาดู</ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
